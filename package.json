@@ -8,5 +8,11 @@
   "devDependencies": {
     "typescript": "^4.3.2",
     "vite": "^2.3.8"
+  },
+  "dependencies": {
+    "pixi.js": "^6.0.4"
+  },
+  "volta": {
+    "node": "14.17.1"
   }
 }

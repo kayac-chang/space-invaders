@@ -1,8 +1,17 @@
-import './style.css'
+import Crab from "./Crab";
+import Game from "./Game";
+import "./style.css";
 
-const app = document.querySelector<HTMLDivElement>('#app')!
+async function main() {
+  const game = Game(11 * 2, 8 * 2, 10);
 
-app.innerHTML = `
-  <h1>Hello Vite!</h1>
-  <a href="https://vitejs.dev/guide/features.html" target="_blank">Documentation</a>
-`
+  const a = Crab();
+  game.add(a);
+
+  const b = Crab();
+  b.position.x = 11;
+  b.position.y = 8;
+  game.add(b);
+}
+
+main();
