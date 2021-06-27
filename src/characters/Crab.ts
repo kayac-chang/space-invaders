@@ -1,4 +1,4 @@
-import { GameObject } from "./types";
+import { GameObject } from "../types";
 
 const image1 = [
   [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0],
