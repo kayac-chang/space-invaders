@@ -1,4 +1,4 @@
-import { GameObject } from "../types";
+import { GameObject, Resource } from "../types";
 
 const image1 = [
   [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0],
@@ -22,23 +22,27 @@ const image2 = [
   [0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0],
 ];
 
-type Crab = GameObject & { duration: number };
+function animate<T extends GameObject>(images: Resource[]) {
+  let duration = 0;
+  let index = 0;
 
-function update(this: Crab, delta: number) {
-  this.duration += delta;
+  return function (this: T, delta: number) {
+    duration += delta;
 
-  if (this.duration >= 2000) {
-    this.renderer = this.renderer === image1 ? image2 : image1;
+    if (duration >= 2000) {
+      index += 1;
 
-    this.duration = 0;
-  }
+      this.renderer = images[index % images.length];
+
+      duration = 0;
+    }
+  };
 }
 
-export default function Crab(): Crab {
+export default function Crab(): GameObject {
   return {
-    duration: 0,
     position: { x: 0, y: 0 },
     renderer: image1,
-    update,
+    update: animate([image1, image2]),
   };
 }
