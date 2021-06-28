@@ -109,7 +109,7 @@ const image = [
 
 生成物件
 ```ts
-const graphic = new Graphics();
+const graphics = new Graphics();
 ```
 
 遍歷 `image` 陣列，透過資料來繪製圖形，
