@@ -12,7 +12,7 @@
 
 ### Bundle System 打包工具
 
-我將會使用 [Vite](https://vitejs.dev/), 作為打包工具喔。
+卡比將會使用 [Vite](https://vitejs.dev/), 作為打包工具喔。
 
 - 首先 建立新的專案 
 
@@ -36,8 +36,8 @@ yarn && yarn dev
 
 ## Application 
 
-首先要先在頁面上生成 `<canvas />` 以方便我們繪圖，
-我們將採用 `pixi.js` 作為繪圖引擎，
+首先要先在頁面上生成 `<canvas />` 以方便卡比繪圖，
+卡比將採用 `pixi.js` 作為繪圖引擎，
 
 ```bash
 yarn add pixi.js
@@ -51,7 +51,7 @@ yarn add pixi.js
 import { Application } from "pixi.js";
 ```
 
-接著我們將底下預設的程式碼換成
+接著卡比將底下預設的程式碼換成
 
 ```ts
 const app = new Application();
@@ -80,9 +80,9 @@ document.querySelector("#app")?.append(app.view);
 ### 分析
 
 那個年代並沒有繪圖軟體，圖片都是由工程師透過程式繪成，
-所以我們首先要思考如何用程式繪製點陣圖形。
+所以卡比首先要思考如何用程式繪製點陣圖形。
 
-我們試著畫出，這個遊戲的代表外星人 `Crab`。
+卡比試著畫出，這個遊戲的代表外星人 `Crab`。
 
 ![Crab](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKh1GY82qqAC3mOrwtEe0LIAtk_mAftl3twJGlU2OBd3pXuOUQfHFnCTl4zN7GFJ08bpQ&usqp=CAU)
 
@@ -112,7 +112,7 @@ const image = [
 
 ### 實作
 
-接者我們要用 `pixi.js` 中的 `Graphics` API 進行點陣圖繪製，
+接者卡比要用 `pixi.js` 中的 `Graphics` API 進行點陣圖繪製，
 
 ```diff
 - import { Application } from "pixi.js";
@@ -170,7 +170,7 @@ app.stage.addChild(graphics);
 + });
 ```
 
-就這樣我們畫出 `Crab` 了。
+就這樣卡比畫出 `Crab` 了。
 
 ![hello crab final](./hello-crab-2.png)
 
@@ -208,10 +208,10 @@ app.stage.addChild(graphics);
 
 ## Refactor 重構
 
-接下來我們要將這段`Crab`的程式碼整理到一個地方放，
-方便以後我要再畫出`Crab`時可以直接使用，而不需要重新走過上面的思考流程。
+接下來卡比要將這段`Crab`的程式碼整理到一個地方放，
+方便以後卡比要再畫出`Crab`時可以直接使用，而不需要重新走過上面的思考流程。
 
-首先，我們在 `src` 底下建立 `characters` 的資料夾，並建立一隻新的檔案叫 `Crab.ts`。
+首先，卡比在 `src` 底下建立 `characters` 的資料夾，並建立一隻新的檔案叫 `Crab.ts`。
 並把畫出 `Crab` 的相關程式碼搬到那個地方。
 
 -- `src/characters/Crab.ts`
@@ -249,7 +249,7 @@ export default function Crab() {
 }
 ```
 
-之後我們來測試一下 `Crab` 函式。
+之後來測試一下 `Crab` 函式。
 
 -- `src/main.ts`
 
@@ -269,12 +269,12 @@ document.querySelector("#app")?.append(app.view);
 app.stage.addChild(Crab());
 ```
 
-這樣我們就成功重構了`Crab`。
+這樣卡比成功重構了`Crab`。
 
 ## Other Characters 其他角色
 
 因為接下來的角色作法跟上面的 `Crab` 差不多，
-我將直接提供其他角色的資料以供大家做練習。
+卡比直接提供其他角色的資料以供大家做練習。
 
 ### LaserCannon
 
