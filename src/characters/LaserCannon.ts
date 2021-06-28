@@ -1,4 +1,5 @@
 import { getKeyDown, Key } from "../Control";
+import { throttle } from "../functions/throttle";
 import { GameObject } from "../types";
 
 const image = [
@@ -11,22 +12,6 @@ const image = [
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
-
-function throttle(fn: (delta: number) => void, ms: number) {
-  let duration = 0;
-
-  return function (this: GameObject, delta: number) {
-    duration += delta;
-
-    if (duration < ms) {
-      return;
-    }
-
-    fn.call(this, delta);
-
-    duration = 0;
-  };
-}
 
 export default function LaserCannon(): GameObject {
   return {
