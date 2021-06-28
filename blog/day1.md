@@ -45,7 +45,7 @@ yarn add pixi.js
 
 **note. 請注意卡比此時的版本為 `"pixi.js": "^6.0.4"`**
 
-接著在 `main.ts` 導入，
+接著在 `src/main.ts` 導入，
 
 ```ts
 import { Application } from "pixi.js";
@@ -214,7 +214,7 @@ app.stage.addChild(graphics);
 首先，我們先建立一個 `characters` 的資料夾，並建立一隻新的檔案叫 `Crab.ts`。
 並把畫出 `Crab` 的相關程式碼搬到那個地方。
 
--- `characters/Crab.ts`
+-- `src/characters/Crab.ts`
 
 ```ts
 import { Graphics } from "pixi.js";
@@ -251,7 +251,7 @@ export default function Crab() {
 
 之後我們來測試一下 `Crab` 函式。
 
--- `main.ts`
+-- `src/main.ts`
 
 ```ts
 import "./style.css";
