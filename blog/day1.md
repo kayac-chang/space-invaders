@@ -161,3 +161,124 @@ app.stage.addChild(graphics);
 就這樣我們畫出 `Crab` 了。
 
 ![hello crab final](./hello-crab-2.png)
+
+## Refactor 重構
+
+接下來我們要將這段`Crab`的程式碼整理到一個地方放，
+方便以後我要再畫出`Crab`時可以直接使用，而不需要重新走過上面的思考流程。
+
+首先，我們先建立一個 `characters` 的資料夾，並建立一隻新的檔案叫 `Crab.ts`。
+並把畫出 `Crab` 的相關程式碼搬到那個地方。
+
+-- `characters/Crab.ts`
+
+```ts
+import { Graphics } from "pixi.js";
+
+const image = [
+  [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0],
+  [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
+  [0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+  [0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1],
+  [1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1],
+  [0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0],
+];
+
+export default function Crab() {
+  const graphics = new Graphics();
+
+  for (let y = 0; y < image.length; y++) {
+    for (let x = 0; x < image[y].length; x++) {
+      if (image[y][x] === 0) continue;
+
+      graphics.beginFill(0xffffff);
+
+      graphics.drawRect(x, y, 1, 1);
+
+      graphics.endFill();
+    }
+  }
+
+  return graphics;
+}
+```
+
+之後我們來測試一下 `Crab` 函式。
+
+-- `main.ts`
+
+```ts
+import "./style.css";
+import { Application } from "pixi.js";
+import Crab from "./characters/Crab";
+
+const app = new Application({
+  width: 11,
+  height: 8,
+  resolution: 10,
+});
+
+document.querySelector("#app")?.append(app.view);
+
+app.stage.addChild(Crab());
+```
+
+這樣我們就成功重構了`Crab`。
+
+## Other Characters 其他角色
+
+因為接下來的角色作法跟上面的 `Crab` 差不多，
+我將直接提供其他角色的資料以供大家做練習。
+
+### LaserCannon
+
+```ts
+const laserCannon = [
+  [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
+  [0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
+  [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+];
+```
+
+![LaserCannon](./laser-cannon.png)
+
+### Octopus
+
+```ts
+const octopus = [
+  [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0],
+  [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0],
+  [0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0],
+  [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+];
+```
+
+![Octopus](./octopus.png)
+
+### Squid
+
+```ts
+const squid = [
+  [0, 0, 0, 1, 1, 0, 0, 0],
+  [0, 0, 1, 1, 1, 1, 0, 0],
+  [0, 1, 1, 1, 1, 1, 1, 0],
+  [1, 1, 0, 1, 1, 0, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1],
+  [0, 0, 1, 0, 0, 1, 0, 0],
+  [0, 1, 0, 1, 1, 0, 1, 0],
+  [1, 0, 1, 0, 0, 1, 0, 1],
+];
+```
+
+![Squid](./squid.png)
