@@ -211,7 +211,7 @@ app.stage.addChild(graphics);
 接下來我們要將這段`Crab`的程式碼整理到一個地方放，
 方便以後我要再畫出`Crab`時可以直接使用，而不需要重新走過上面的思考流程。
 
-首先，我們先建立一個 `characters` 的資料夾，並建立一隻新的檔案叫 `Crab.ts`。
+首先，我們在 `src` 底下建立 `characters` 的資料夾，並建立一隻新的檔案叫 `Crab.ts`。
 並把畫出 `Crab` 的相關程式碼搬到那個地方。
 
 -- `src/characters/Crab.ts`
