@@ -14,7 +14,7 @@
 
 卡比將會使用 [Vite](https://vitejs.dev/), 作為打包工具喔。
 
-- 首先 建立新的專案 
+- 首先 建立新的專案
 
 ```bash
 yarn create @vitejs/app space-invaders --template vanilla-ts
@@ -22,19 +22,22 @@ yarn create @vitejs/app space-invaders --template vanilla-ts
 
 - 進入那個專案，並開啟 Dev Server
 
+yarn 會下載這個專案有用到的所有第三方套件
+yarn dev 會開啟 dev server
+
 ```bash
 cd space-invaders
-yarn && yarn dev
+yarn
+yarn dev
 ```
 
 - 打開瀏覽器 `localhost:3000`，此時畫面應為
 
 ![hello vite](hello-vite.png)
 
-
 - 打開你的 Editor，開始出發拉!
 
-## Application 
+## Application
 
 首先要先在頁面上生成 `<canvas />` 以方便卡比繪圖，
 卡比將採用 `pixi.js` 作為繪圖引擎，
@@ -92,7 +95,6 @@ document.querySelector("#app")?.append(app.view);
 簡單的方式來記錄每個格子裡面有沒有顏色即可，
 例如 1 - 有顏色， 0 - 沒有顏色。
 
-
 故可以用以下表示這張圖片，
 
 ```typescript
@@ -120,6 +122,7 @@ const image = [
 ```
 
 生成物件
+
 ```ts
 const graphics = new Graphics();
 ```
@@ -128,7 +131,7 @@ const graphics = new Graphics();
 
 `if (image[y][x] === 0) continue;` 0 的話就不畫顏色，直接跳過。
 
-`beginFill(0xffffff)` 是指先選好要上的顏色，`0xffffff` 就是白色的16進位色碼。
+`beginFill(0xffffff)` 是指先選好要上的顏色，`0xffffff` 就是白色的 16 進位色碼。
 
 `drawRect(x, y, w, h)` 是指在某個位置畫一個特定寬高的矩形。
 
@@ -184,7 +187,7 @@ import { Application, Graphics } from "pixi.js";
 const app = new Application({
   width: 11,
   height: 8,
-  resolution: 10, 
+  resolution: 10,
 });
 
 document.querySelector("#app")?.append(app.view);
@@ -276,6 +279,8 @@ app.stage.addChild(Crab());
 因為接下來的角色作法跟上面的 `Crab` 差不多，
 卡比直接提供其他角色的資料以供大家做練習。
 
+**以下練習可以自行調整 `Application` 的畫布大小喔。**
+
 ### LaserCannon
 
 ```ts
@@ -326,3 +331,7 @@ const squid = [
 ```
 
 ![Squid](./squid.png)
+
+## 小考題
+
+1. 請問假如要在場上同時放上 `Crab`，`LaserCannon`，`Octopus`，`Squid`，要怎麼做呢？
