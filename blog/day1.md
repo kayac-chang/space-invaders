@@ -63,6 +63,18 @@ document.querySelector("#app")?.append(app.view);
 
 ![hello pixi.js](hello-pixijs.png)
 
+程式碼如下，
+
+-- `src/main.ts`
+
+```ts
+import { Application } from "pixi.js";
+
+const app = new Application();
+
+document.querySelector("#app")?.append(app.view);
+```
+
 ## Pixel Art Assets 點陣圖資源
 
 ### 分析
@@ -161,6 +173,38 @@ app.stage.addChild(graphics);
 就這樣我們畫出 `Crab` 了。
 
 ![hello crab final](./hello-crab-2.png)
+
+程式碼如下，
+
+-- `src/main.ts`
+
+```ts
+import { Application, Graphics } from "pixi.js";
+
+const app = new Application({
+  width: 11,
+  height: 8,
+  resolution: 10, 
+});
+
+document.querySelector("#app")?.append(app.view);
+
+const graphics = new Graphics();
+
+for (let y = 0; y < image.length; y++) {
+  for (let x = 0; x < image[y].length; x++) {
+    if (image[y][x] === 0) continue;
+
+    graphics.beginFill(0xffffff);
+
+    graphics.drawRect(x, y, 1, 1);
+
+    graphics.endFill();
+  }
+}
+
+app.stage.addChild(graphics);
+```
 
 ## Refactor 重構
 
