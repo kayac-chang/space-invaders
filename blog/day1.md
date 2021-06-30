@@ -97,7 +97,7 @@ document.querySelector("#app")?.append(app.view);
 
 故可以用以下表示這張圖片，
 
-```typescript
+```ts
 const image = [
   [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0],
   [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
