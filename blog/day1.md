@@ -33,7 +33,7 @@ yarn dev
 
 - 打開瀏覽器 `localhost:3000`，此時畫面應為
 
-![hello vite](hello-vite.png)
+![hello vite](./day1/hello-vite.png)
 
 - 打開你的 Editor，開始出發拉!
 
@@ -64,7 +64,7 @@ document.querySelector("#app")?.append(app.view);
 
 此時畫面應該如下，
 
-![hello pixi.js](hello-pixijs.png)
+![hello pixi.js](./day1/hello-pixijs.png)
 
 程式碼如下，
 
@@ -159,7 +159,7 @@ app.stage.addChild(graphics);
 
 此時畫面應該如下
 
-![hello crab first](./hello-crab-1.png)
+![hello crab first](./day1/hello-crab-1.png)
 
 似乎有點小，將畫面的比例調整一下，
 寬度 11 px, 高度 8 px, 放大 10 倍 來看看
@@ -175,7 +175,7 @@ app.stage.addChild(graphics);
 
 就這樣卡比畫出 `Crab` 了。
 
-![hello crab final](./hello-crab-2.png)
+![hello crab final](./day1/hello-crab-2.png)
 
 程式碼如下，
 
@@ -296,7 +296,7 @@ const laserCannon = [
 ];
 ```
 
-![LaserCannon](./laser-cannon.png)
+![LaserCannon](./day1/laser-cannon.png)
 
 ### Octopus
 
@@ -313,7 +313,7 @@ const octopus = [
 ];
 ```
 
-![Octopus](./octopus.png)
+![Octopus](./day1/octopus.png)
 
 ### Squid
 
@@ -330,7 +330,7 @@ const squid = [
 ];
 ```
 
-![Squid](./squid.png)
+![Squid](./day1/squid.png)
 
 ## 小考題
 

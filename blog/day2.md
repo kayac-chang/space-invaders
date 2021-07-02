@@ -8,7 +8,7 @@
 
 ## 分析
 
-![Crab](./crab.jpeg)
+![Crab](./day2/crab.jpeg)
 
 `Crab` 在遊戲裏面在每次移動時都會把手舉起來，感覺像在跟玩家打招呼呢！
 所以我們需要再畫一張把手舉起來的圖，並透過切換兩張圖達到打招呼的效果。
@@ -61,7 +61,7 @@ export default function Crab() {
 
 這時畫面上應該長這樣
 
-![Crab greeting](crab-hand.png)
+![Crab greeting](./day2/crab-hand.png)
 
 ## 換圖
 
@@ -270,7 +270,7 @@ export default function Crab() {
 
 最後結果如下：
 
-![Final](./crab-greeting.gif)
+![Final](./day2/crab-greeting.gif)
 
 ## Other 
 
