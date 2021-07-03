@@ -272,7 +272,7 @@ export default function Crab() {
 
 ![Final](./day2/crab-greeting.gif)
 
-## Other 
+## 小考題 
 
 以下提供其他角色的圖片，大家可以自行實作看看！
 
