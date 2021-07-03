@@ -14,30 +14,40 @@
 
 卡比將會使用 [Vite](https://vitejs.dev/), 作為打包工具喔。
 
-- 首先 建立新的專案
+首先 建立新的專案
 
+```
+yarn create @vitejs/app [專案名稱] --template vanilla-ts
+````
+
+例如.
 ```bash
 yarn create @vitejs/app space-invaders --template vanilla-ts
 ```
 
-- 進入那個專案，並開啟 Dev Server
+進入那個專案，並開啟 Dev Server
 
 yarn 會下載這個專案有用到的所有第三方套件
-yarn dev 會開啟 dev server
+
 
 ```bash
 cd space-invaders
 yarn
+```
+
+接著 yarn dev 會開啟 dev server
+
+```bash
 yarn dev
 ```
 
-- 打開瀏覽器 `localhost:3000`，此時畫面應為
+打開瀏覽器 `localhost:3000`，此時畫面應為
 
 ![hello vite](./day1/hello-vite.png)
 
-- 打開你的 Editor，開始出發拉!
-
 ## Application
+
+打開你的 Editor，開始出發拉!
 
 首先要先在頁面上生成 `<canvas />` 以方便卡比繪圖，
 卡比將採用 `pixi.js` 作為繪圖引擎，
@@ -192,6 +202,17 @@ const app = new Application({
 
 document.querySelector("#app")?.append(app.view);
 
+const image = [
+  [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0],
+  [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
+  [0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+  [0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1],
+  [1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1],
+  [0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0],
+];
+
 const graphics = new Graphics();
 
 for (let y = 0; y < image.length; y++) {
@@ -335,6 +356,8 @@ const squid = [
 ## 小考題
 
 1. 請問假如要在場上同時放上 `Crab`，`LaserCannon`，`Octopus`，`Squid`，要怎麼做呢？
+**提示:查看 Graphic 文件，[position](http://pixijs.download/release/docs/PIXI.Graphics.html#position)，因為我希望大家可以去看文件。**
+
 
 ## 關於兔兔們
 
