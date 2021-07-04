@@ -56,11 +56,11 @@ _GameLoop_ 不需要了解是什麼物件，但是知道實作 _interface_ 一�
 -- `src/types.ts`
 
 ```ts
-import { Container } from "pixi.js";
+import { Application } from "pixi.js";
 
 export interface GameObject {
   update(delta: number): void;
-  render(stage: Container): void;
+  render(stage: Application): void;
 }
 ```
 
@@ -111,7 +111,7 @@ export default function Crab(): GameObject {
       }
     },
 
-    render(stage) {
+    render(app) {
       const graphics = new Graphics();
 
       const image = images[current % images.length];
@@ -128,7 +128,7 @@ export default function Crab(): GameObject {
         }
       }
 
-      stage.addChild(graphics);
+      app.stage.addChild(graphics);
     },
   };
 }
@@ -154,7 +154,7 @@ app.ticker.add(() => {
 
   instance.update(app.ticker.deltaMS);
 
-  instance.render(app.stage);
+  instance.render(app);
 });
 ```
 
