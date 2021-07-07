@@ -1,17 +1,27 @@
-export interface Vector {
-  x: number;
-  y: number;
+import { Application } from "pixi.js";
+
+export enum Key {
+  Left,
+  Right,
 }
 
-export interface Transform {
+export type Vector = {
+  x: number;
+  y: number;
+};
+
+export interface Transfrom {
   position: Vector;
 }
 
-export type Resource = number[][];
-
-export interface Renderer {
-  renderer: Resource;
-  update?(delta: number): void;
+export interface Control {
+  handleInput(pressed: Key[]): void;
 }
 
-export type GameObject = Renderer & Transform;
+export interface GameObject {
+  update?(delta: number): void;
+  render(app: Application): void;
+}
+
+export interface Scene extends GameObject {
+}

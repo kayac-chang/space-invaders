@@ -1,11 +1,24 @@
-import Octopus from "./characters/Octopus";
-import Game from "./Game";
 import "./style.css";
+import { Application } from "pixi.js";
+import { Scene } from "./types";
+import Game from "./scenes/Game";
 
-async function main() {
-  const game = Game(11 * 2, 8 * 2, 10);
+const app = new Application({
+  width: 80,
+  height: 80,
+  resolution: 5,
+});
 
-  game.add(Octopus());
+document.querySelector("#app")?.append(app.view);
+
+function run(scene: Scene) {
+  app.ticker.add(() => {
+    app.stage.removeChildren();
+
+    scene.update?.(app.ticker.deltaMS);
+
+    scene.render(app);
+  });
 }
 
-main();
+run(Game());
