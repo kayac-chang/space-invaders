@@ -1,5 +1,4 @@
-import { Graphics } from "pixi.js";
-import { GameObject, Transfrom } from "../types";
+import { GameObject, Renderer, Transform } from "../types";
 
 const image1 = [
   [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0],
@@ -23,10 +22,10 @@ const image2 = [
   [0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0],
 ];
 
-export default function Octopus(): GameObject & Transfrom {
-  let current = 0;
+export default function Octopus(): GameObject & Transform & Renderer {
   const images = [image1, image2];
 
+  let current = 0;
   let timePass = 0;
 
   return {
@@ -38,27 +37,14 @@ export default function Octopus(): GameObject & Transfrom {
       if (timePass > 1000) {
         current += 1;
         timePass = 0;
+
+        this.renderer.src = images[current % images.length];
       }
     },
 
-    render(app) {
-      const graphics = new Graphics();
-
-      const image = images[current % images.length];
-
-      for (let y = 0; y < image.length; y++) {
-        for (let x = 0; x < image[y].length; x++) {
-          if (image[y][x] === 0) continue;
-
-          graphics.beginFill(0xffffff);
-
-          graphics.drawRect(x, y, 1, 1);
-
-          graphics.endFill();
-        }
-      }
-
-      app.stage.addChild(graphics);
+    renderer: {
+      type: "graphics",
+      src: images[current % images.length],
     },
   };
 }

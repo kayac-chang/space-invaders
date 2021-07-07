@@ -1,19 +1,31 @@
+import { Container, Rectangle } from "pixi.js";
 import LaserCannon from "../characters/LaserCannon";
-import { GameObject, Scene } from "../types";
+import Squid from "../characters/Squid";
+import { getKeyPressed } from "../systems/input";
+import { render } from "../systems/render";
+import { canControl, canRender, GameObject, Scene } from "../types";
 
-export default function Game(): Scene {
+export default function Game(screen: Rectangle): Scene<Container> {
   const instances: GameObject[] = [
-    LaserCannon({
-      position: { x: 10, y: 20 },
-    }),
+    LaserCannon(screen),
+    Squid(),
   ];
 
   return {
     update(delta) {
-      instances.forEach((instance) => instance.update?.(delta));
+      instances.forEach((instance) => {
+        if (canControl(instance)) {
+          instance.handleInput(getKeyPressed());
+        }
+
+        instance.update?.(delta);
+      });
     },
-    render(app) {
-      instances.forEach((instance) => instance.render(app));
+
+    render(stage) {
+      instances
+        .filter(canRender)
+        .forEach((instance) => render(stage, instance));
     },
   };
 }
