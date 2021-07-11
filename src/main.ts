@@ -1,5 +1,5 @@
 import "./style.css";
-import { Application, Container } from "pixi.js";
+import { Application } from "pixi.js";
 import Game from "./scenes/Game";
 
 const app = new Application({
@@ -13,11 +13,9 @@ document.querySelector("#app")?.append(app.view);
 const scene = Game(app.screen);
 
 app.ticker.add(() => {
-  const stage = new Container();
+  app.stage.removeChildren();
 
   scene.update?.(app.ticker.deltaMS);
 
-  scene.render(stage);
-
-  app.stage = stage;
+  scene.render(app.stage);
 });
