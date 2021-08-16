@@ -1,7 +1,8 @@
 import { Container, DisplayObject, Graphics as _Graphics } from "pixi.js";
 import { canTransform, GameObject, Renderer } from "../types";
 
-function Graphics({ src }: Renderer["renderer"]) {
+function Graphics({ renderer }: Renderer) {
+  const src = renderer.src;
   const graphics = new _Graphics();
 
   for (let y = 0; y < src.length; y++) {
@@ -23,7 +24,7 @@ export function render(stage: Container, instance: GameObject & Renderer) {
   let renderer: DisplayObject | undefined = undefined;
 
   if (instance.renderer.type === "graphics") {
-    renderer = Graphics(instance.renderer);
+    renderer = Graphics(instance);
   }
 
   if (renderer) {

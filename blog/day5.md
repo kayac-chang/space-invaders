@@ -2,17 +2,15 @@
 
 寫程式寫到一定的階段後，會開始發現，其實做出想要的功能並不困難。
 真正難的，其實是如何寫出有彈性的程式碼以應對各種需求跟變化。
-卡比接下來要做的，是在一般遊戲引擎都會實作的設計模式，*Component*。
+卡比接下來要做的，是在一般遊戲引擎都會實作的設計模式，_Component_。
 
 ## Entity (GameObject) Component and System
 
-在遊戲設計中的 *Component* 跟 Web 的 *Component* 不同，
-這邊的 *Component* 是用來封裝 *GameObject* 的 行為 或是 邏輯的，
-你可以想成 *GameObject* 本身只是 *Component* 的載體。
+在遊戲設計中的 _Component_ 跟 Web 的 _Component_ 不同，
+這邊的 _Component_ 是用來提供 _GameObject_ 行為的。
 
 不過卡比會進一步將邏輯跟資料的部分在拆出來，
-讓 *Component* 用於封裝資料， *System* 用於處理邏輯，
-就是接下來的目標。
+讓 _Component_ 用於封裝資料， _System_ 用於處理邏輯。
 
 ## Renderer Component and Render System
 
@@ -85,7 +83,8 @@ export default function LaserCannon(): GameObject & Renderer {
 專門用來處理 `render` 相關的邏輯。
 
 ```ts
-function Graphics({ src }: Renderer["renderer"]) {
+function Graphics({ renderer }: Renderer) {
+  const src = renderer.src;
   const graphics = new _Graphics();
 
   for (let y = 0; y < src.length; y++) {
@@ -107,7 +106,7 @@ export function render(stage: Container, instance: GameObject & Renderer) {
   let renderer: DisplayObject | undefined = undefined;
 
   if (instance.renderer.type === "graphics") {
-    renderer = Graphics(instance.renderer);
+    renderer = Graphics(instance);
   }
 
   if (renderer) {
@@ -118,7 +117,7 @@ export function render(stage: Container, instance: GameObject & Renderer) {
 }
 ```
 
-接著，更改 `src/main.ts` 來接上我們的 *Render System* 。
+接著，更改 `src/main.ts` 來接上我們的 _Render System_ 。
 
 ```ts
 app.ticker.add(() => {
@@ -134,9 +133,11 @@ app.ticker.add(() => {
 
 確認畫面運作沒問題，我們的重構就完成了。
 
-## 小考題
+## Transform System
 
-1. 提供以下介面，請將 `LaserCannon` 的其他程式碼也一併 *Component* 化。
+接下來，將 `LaserCannon` 的其他程式碼也一併 _Component_ 化。
+
+-- `src/types.ts`
 
 ```ts
 export type Vector = {
@@ -157,8 +158,83 @@ export interface GameObject {
 }
 ```
 
-2. 請將 `Crab`，`LaserCannon`，`Octopus`，`Squid` 也進行 *Component* 化。
+-- `src/characters/LaserCannon.ts`
 
+```ts
+import { clamp } from "../functions/utils";
+import { Control, GameObject, Key, Renderer, Transform } from "../types";
+
+export default function LaserCannon(): GameObject &
+  Transform &
+  Control &
+  Renderer {
+  return {
+    renderer: {
+      type: "graphics",
+      src: [
+        [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      ],
+    },
+
+    position: { x: 10, y: 10 },
+
+    handleInput(pressed) {
+      if (pressed.includes(Key.Left)) {
+        this.position.x -= 1;
+        return;
+      }
+
+      if (pressed.includes(Key.Right)) {
+        this.position.x += 1;
+        return;
+      }
+    },
+  };
+}
+```
+
+因為我們將 `render` 相關的邏輯移到 `Render System`，
+但還未實作 `Transform` 的相關邏輯。
+
+在 `System` 中，我們需要過濾被傳入的物件是否擁有 `Transform` 元件，
+如果擁有 `Transform` 才需要執行 `position` 相關的邏輯操作。
+
+-- `src/types.ts`
+
+```ts
+export function canTransform<T extends GameObject>(
+  instance: T
+): instance is T & Transform {
+  return "position" in instance;
+}
+```
+
+-- `src/systems/render.ts`
+
+```diff
+export function render(stage: Container, instance: GameObject & Renderer) {
+  let renderer: DisplayObject | undefined = undefined;
+
+  if (instance.renderer.type === "graphics") {
+    renderer = Graphics(instance);
+  }
+
+  if (renderer) {
+    stage.addChild(renderer);
+  }
+
++ if (renderer && canTransform(instance)) {
++   renderer.position.set(instance.position.x, instance.position.y);
++ }
+}
+```
 
 #### 關於兔兔們：
 

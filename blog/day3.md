@@ -34,7 +34,7 @@ while (true) {
 像是在 _Web_ 端， _JavaScript_ 是無法直接對底層直接做操作的，
 必須透過 _requestAnimationFrame_ 等 API 來實現 `GameLoop`。
 
-實際上，卡比在前一天就已經實作 _GameLoop_ 了，
+實際上，卡比在前一章節就已經實作 _GameLoop_ 了，
 不過接下來，卡比會做一些調整。
 
 ## 介面
