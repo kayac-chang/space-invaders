@@ -10,6 +10,10 @@ document.addEventListener("keydown", (event) => {
   if (event.code === "ArrowRight") {
     pressed.add(Key.Right);
   }
+
+  if (event.code === "Space") {
+    pressed.add(Key.Space);
+  }
 });
 
 document.addEventListener("keyup", (event) => {
@@ -19,6 +23,10 @@ document.addEventListener("keyup", (event) => {
 
   if (event.code === "ArrowRight") {
     pressed.delete(Key.Right);
+  }
+
+  if (event.code === "Space") {
+    pressed.delete(Key.Space);
   }
 });
 

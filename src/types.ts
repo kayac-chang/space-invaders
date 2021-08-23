@@ -1,6 +1,7 @@
 export enum Key {
   Left,
   Right,
+  Space,
 }
 
 export type Vector = {
@@ -32,19 +33,30 @@ export interface Scene<T> extends GameObject {
 }
 
 export function canTransform<T extends GameObject>(
-  instance: T,
+  instance: T
 ): instance is T & Transform {
   return "position" in instance;
 }
 
 export function canControl<T extends GameObject>(
-  instance: T,
+  instance: T
 ): instance is T & Control {
   return "handleInput" in instance;
 }
 
 export function canRender<T extends GameObject>(
-  instance: T,
+  instance: T
 ): instance is T & Renderer {
   return "renderer" in instance;
+}
+
+export interface Shooter {
+  canShoot: boolean;
+  shoot(): GameObject;
+}
+
+export function canShoot<T extends GameObject>(
+  instance: T
+): instance is T & Shooter {
+  return "shoot" in instance;
 }
