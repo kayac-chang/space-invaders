@@ -1,4 +1,4 @@
-import { GameObject, Renderer, Transform } from "../types";
+import { Collision, GameObject, Renderer, Transform } from "../types";
 
 const image1 = [
   [0, 0, 0, 1, 1, 0, 0, 0],
@@ -22,7 +22,7 @@ const image2 = [
   [0, 1, 0, 0, 0, 0, 1, 0],
 ];
 
-export default function Squid(): GameObject & Transform & Renderer {
+export default function Squid(): GameObject & Transform & Renderer & Collision {
   const images = [image1, image2];
 
   let current = 0;
@@ -45,6 +45,10 @@ export default function Squid(): GameObject & Transform & Renderer {
     renderer: {
       type: "graphics",
       src: images[current % images.length],
+    },
+
+    collider: {
+      size: { x: image1[0].length, y: image1.length },
     },
   };
 }

@@ -7,9 +7,13 @@ import {
   Shooter,
   Transform,
   Vector,
+  Collision,
 } from "../types";
 
-function Laser({ x, y }: Vector): GameObject & Transform & Renderer {
+function Laser({
+  x,
+  y,
+}: Vector): GameObject & Transform & Renderer & Collision {
   return {
     renderer: {
       type: "graphics",
@@ -20,6 +24,17 @@ function Laser({ x, y }: Vector): GameObject & Transform & Renderer {
 
     update() {
       this.position.y -= 1;
+    },
+
+    collider: {
+      size: { x: 1, y: 4 },
+    },
+
+    collision: {
+      start(other) {
+        other.destroy = true;
+        this.destroy = true;
+      },
     },
   };
 }

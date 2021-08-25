@@ -8,6 +8,10 @@ export type Vector = {
   x: number;
   y: number;
 };
+export interface Rect extends Vector {
+  w: number;
+  h: number;
+}
 
 export interface Transform {
   position: Vector;
@@ -24,7 +28,18 @@ export interface Renderer {
   };
 }
 
+export interface Collision {
+  collider: {
+    size: Vector;
+  };
+
+  collision?: {
+    start?<T extends GameObject & Collision>(this: T, collider: T): void;
+  };
+}
+
 export interface GameObject {
+  destroy?: boolean;
   update?(delta: number): void;
 }
 
@@ -59,4 +74,10 @@ export function canShoot<T extends GameObject>(
   instance: T
 ): instance is T & Shooter {
   return "shoot" in instance;
+}
+
+export function canCollision<T extends GameObject>(
+  instance: T
+): instance is T & Collision {
+  return "collider" in instance;
 }
