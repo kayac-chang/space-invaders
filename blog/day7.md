@@ -98,7 +98,7 @@ export function canShoot<T extends GameObject>(
 
 ```diff
 export default function Game(screen: Rectangle): Scene<Container> {
-  const instances: GameObject[] = [LaserCannon(screen), Squid()];
++ let instances: GameObject[] = [LaserCannon(screen), Squid()];
 
   return {
     update(delta) {
@@ -109,7 +109,7 @@ export default function Game(screen: Rectangle): Scene<Container> {
 
 +       if (canShoot(instance) && instance.canShoot) {
 +         requestAnimationFrame(() => {
-+           instances.push(instance.shoot());
++           instances = [...instances, instance.shoot()];
 +         });
 +         instance.canShoot = false;
 +       }
@@ -195,8 +195,6 @@ export default function LaserCannon(screen: {
   };
 }
 ```
-
-##
 
 #### 關於兔兔們：
 
