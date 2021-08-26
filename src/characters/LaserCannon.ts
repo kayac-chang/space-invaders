@@ -6,38 +6,8 @@ import {
   Renderer,
   Shooter,
   Transform,
-  Vector,
-  Collision,
 } from "../types";
-
-function Laser({
-  x,
-  y,
-}: Vector): GameObject & Transform & Renderer & Collision {
-  return {
-    renderer: {
-      type: "graphics",
-      src: [[1], [1], [1], [1]],
-    },
-
-    position: { x, y },
-
-    update() {
-      this.position.y -= 1;
-    },
-
-    collider: {
-      size: { x: 1, y: 4 },
-    },
-
-    collision: {
-      start(other) {
-        other.destroy = true;
-        this.destroy = true;
-      },
-    },
-  };
-}
+import { Laser } from "../army";
 
 type TLaserCannon = GameObject & Transform & Control & Renderer & Shooter;
 
@@ -68,7 +38,12 @@ export default function LaserCannon(screen: {
     shoot() {
       const { x, y } = this.position;
 
-      return Laser({ x: x + 5, y: y - 4 });
+      return Laser({
+        position: { x: x + 5, y: y - 4 },
+        update(it) {
+          it.position.y -= 1;
+        },
+      });
     },
 
     handleInput(this: TLaserCannon, pressed) {

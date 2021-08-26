@@ -1,4 +1,5 @@
-import { Collision, GameObject, Renderer, Transform } from "../types";
+import { Collision, GameObject, Renderer, Shooter, Transform } from "../types";
+import { EnemyLaser } from "../army";
 
 const image1 = [
   [0, 0, 0, 1, 1, 0, 0, 0],
@@ -22,7 +23,8 @@ const image2 = [
   [0, 1, 0, 0, 0, 0, 1, 0],
 ];
 
-export default function Squid(): GameObject & Transform & Renderer & Collision {
+type Enemy = GameObject & Transform & Renderer & Collision & Shooter;
+export default function Squid(): Enemy {
   const images = [image1, image2];
 
   let current = 0;
@@ -39,7 +41,21 @@ export default function Squid(): GameObject & Transform & Renderer & Collision {
         timePass = 0;
 
         this.renderer.src = images[current % images.length];
+        this.canShoot = true;
       }
+    },
+
+    canShoot: false,
+    shoot() {
+      const { x, y } = this.position;
+      const [w, h] = [image1[0].length, image1.length];
+
+      return EnemyLaser({
+        position: { x: x + w / 2, y: y + h + 1 },
+        update(it) {
+          it.position.y += 1;
+        },
+      });
     },
 
     renderer: {
