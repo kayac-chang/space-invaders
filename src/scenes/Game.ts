@@ -1,6 +1,6 @@
 import { Container, Rectangle } from "pixi.js";
 import LaserCannon from "../characters/LaserCannon";
-import Squid from "../characters/Squid";
+import Enemy from "../characters/Enemy";
 import { getKeyPressed } from "../systems/input";
 import { render } from "../systems/render";
 import { collisionDetect } from "../systems/collision";
@@ -15,7 +15,10 @@ import {
 } from "../types";
 
 export default function Game(screen: Rectangle): Scene<Container> {
-  let instances: GameObject[] = [LaserCannon(screen), Squid()];
+  let instances: GameObject[] = [
+    LaserCannon(screen),
+    Enemy({ type: "crab", position: { x: 0, y: 0 } }),
+  ];
 
   return {
     update(delta) {
