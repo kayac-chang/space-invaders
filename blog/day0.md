@@ -37,6 +37,16 @@ _Space Invaders 小蜜蜂_
 
 ## 介紹 Introduction
 
+[Space Invaders][1] 一款 1978 年 由 日本太東 公司發行的街機遊戲，
+因為其暢銷程度也被移植到家用主機上。
+
+遊戲中，玩家將扮演 _大砲 (LaserCannon)_ ，
+透過發射雷射用以攻擊外星侵略者，以防止衛星人的侵略。
+
+敵方的外星人也有各種類型，有 _飛碟（UFO）_、_烏賊（Squid）_、_螃蟹（Crab）_ 和 _章魚（Octopus）_。
+
+別讓外星人成功抵達地面，將這些不速之客徹底擊潰吧。
+
 #### 關於兔兔們：
 
 - [Tailwind CSS 臺灣官網](https://tailwindcss.tw)
@@ -44,3 +54,4 @@ _Space Invaders 小蜜蜂_
 - [兔兔教大本營](https://www.facebook.com/lalarabbits-%E5%85%94%E5%85%94%E6%95%99%E5%A4%A7%E6%9C%AC%E7%87%9F-102150975410839/)
 
 ![](https://i.imgur.com/PwE2UE9.jpg)
+[1]: https://en.wikipedia.org/wiki/Space_Invaders
