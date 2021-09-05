@@ -3,9 +3,9 @@ import { Application } from "pixi.js";
 import Game from "./scenes/Game";
 
 const app = new Application({
-  width: 80,
-  height: 80,
-  resolution: 5,
+  width: 224,
+  height: 256,
+  resolution: 3,
 });
 
 document.querySelector("#app")?.append(app.view);

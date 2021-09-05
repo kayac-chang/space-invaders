@@ -1,6 +1,6 @@
 import { Container, Rectangle } from "pixi.js";
 import LaserCannon from "../characters/LaserCannon";
-import Enemy from "../characters/Enemy";
+import Enemy, { EnemyTypes, EnemyProps } from "../characters/Enemy";
 import { getKeyPressed } from "../systems/input";
 import { render } from "../systems/render";
 import { collisionDetect } from "../systems/collision";
@@ -14,11 +14,27 @@ import {
   Scene,
 } from "../types";
 
+const grid = 16;
+
+const points: EnemyProps[][] = [
+  "squid",
+  "crab",
+  "crab",
+  "octopus",
+  "octopus",
+].map((type, y) =>
+  Array.from({ length: 11 }, (_, x) => ({
+    type: type as EnemyTypes,
+    position: { x: x * grid, y: y * grid },
+  }))
+);
+
+function spawn(generate: typeof Enemy, points: EnemyProps[][]) {
+  return points.map((row) => row.map(generate)).flat();
+}
+
 export default function Game(screen: Rectangle): Scene<Container> {
-  let instances: GameObject[] = [
-    LaserCannon(screen),
-    Enemy({ type: "crab", position: { x: 0, y: 0 } }),
-  ];
+  let instances: GameObject[] = [LaserCannon(screen), ...spawn(Enemy, points)];
 
   return {
     update(delta) {

@@ -8,7 +8,7 @@ import {
 } from "../types";
 import { EnemyLaser } from "../army";
 
-type EnemyTypes = "squid" | "crab" | "octopus";
+export type EnemyTypes = "squid" | "crab" | "octopus";
 
 const EnemyImages: { [key in EnemyTypes]: number[][][] } = {
   squid: [
@@ -82,11 +82,11 @@ const EnemyImages: { [key in EnemyTypes]: number[][][] } = {
 };
 
 type Enemy = GameObject & Transform & Renderer & Collision & Shooter;
-type Props = {
+export type EnemyProps = {
   type: EnemyTypes;
   position: Vector;
 };
-export default function Enemy({ type, position }: Props): Enemy {
+export default function Enemy({ type, position }: EnemyProps): Enemy {
   const images = EnemyImages[type];
 
   let current = 0;
@@ -103,7 +103,7 @@ export default function Enemy({ type, position }: Props): Enemy {
         timePass = 0;
 
         this.renderer.src = images[current % images.length];
-        this.canShoot = true;
+        // this.canShoot = true;
       }
     },
 
