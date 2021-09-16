@@ -1,15 +1,11 @@
-import { Container, DisplayObject, Graphics as _Graphics } from "pixi.js";
-import {
-  canTransform,
-  Collision,
-  GameObject,
-  Renderer,
-  Transform,
-} from "../types";
+import { Container, Graphics as _Graphics } from "pixi.js";
+import { canTransform, GameObject, Renderer, Transform } from "../types";
 
-function Graphics({ renderer }: Renderer) {
+function Graphics(
+  graphics: _Graphics,
+  { renderer, position }: Renderer & Transform
+) {
   const src = renderer.src;
-  const graphics = new _Graphics();
 
   for (let y = 0; y < src.length; y++) {
     for (let x = 0; x < src[y].length; x++) {
@@ -17,40 +13,23 @@ function Graphics({ renderer }: Renderer) {
 
       graphics.beginFill(0xffffff);
 
-      graphics.drawRect(x, y, 1, 1);
+      graphics.drawRect(position.x + x, position.y + y, 1, 1);
 
       graphics.endFill();
     }
   }
-
-  return graphics;
 }
 
-export function debug(
-  stage: Container,
-  { position, collider }: GameObject & Transform & Collision
-) {
-  const graphics = new _Graphics();
+const graphics = new _Graphics();
 
-  graphics.beginFill(0x6ee7b7);
-  graphics.drawRect(position.x, position.y, collider.size.x, collider.size.y);
-  graphics.endFill();
-
-  stage.addChild(graphics);
+export function clear() {
+  graphics.clear();
 }
 
 export function render(stage: Container, instance: GameObject & Renderer) {
-  let renderer: DisplayObject | undefined = undefined;
+  stage.addChild(graphics);
 
-  if (instance.renderer.type === "graphics") {
-    renderer = Graphics(instance);
-  }
-
-  if (renderer) {
-    stage.addChild(renderer);
-  }
-
-  if (renderer && canTransform(instance)) {
-    renderer.position.set(instance.position.x, instance.position.y);
+  if (instance.renderer.type === "graphics" && canTransform(instance)) {
+    Graphics(graphics, instance);
   }
 }

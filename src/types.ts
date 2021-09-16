@@ -39,6 +39,7 @@ export interface Collision {
 }
 
 export interface GameObject {
+  tags?: string[];
   destroy?: boolean;
   update?(delta: number): void;
 }

@@ -82,6 +82,13 @@ const EnemyImages: { [key in EnemyTypes]: number[][][] } = {
 };
 
 type Enemy = GameObject & Transform & Renderer & Collision & Shooter;
+
+export function isEnemy<T extends GameObject>(
+  instance: T
+): instance is T & Enemy {
+  return Boolean(instance.tags?.includes("enemy"));
+}
+
 export type EnemyProps = {
   type: EnemyTypes;
   position: Vector;
@@ -93,6 +100,8 @@ export default function Enemy({ type, position }: EnemyProps): Enemy {
   let timePass = 0;
 
   return {
+    tags: ["enemy"],
+
     position,
 
     update(delta) {

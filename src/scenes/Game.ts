@@ -2,7 +2,7 @@ import { Container, Rectangle } from "pixi.js";
 import LaserCannon from "../characters/LaserCannon";
 import Enemy, { EnemyTypes, EnemyProps } from "../characters/Enemy";
 import { getKeyPressed } from "../systems/input";
-import { render } from "../systems/render";
+import { clear, render } from "../systems/render";
 import { collisionDetect } from "../systems/collision";
 import {
   canCollision,
@@ -66,6 +66,8 @@ export default function Game(screen: Rectangle): Scene<Container> {
     },
 
     render(stage) {
+      clear();
+
       instances
         .filter(canRender)
         .forEach((instance) => render(stage, instance));
