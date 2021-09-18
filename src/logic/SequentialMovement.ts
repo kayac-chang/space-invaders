@@ -11,16 +11,23 @@ export function SequentialMovement({ counts, step }: Props) {
   let index = 0;
 
   return (instances: GameObject[]) => {
-    instances
-      .filter(isEnemy)
-      .filter((instance) => instance.id === index)
-      .forEach((instance) => {
-        instance.position.x += movement.x;
-        instance.position.y += movement.y;
-        instance.current += 1;
-      });
+    const enemies = instances.filter(isEnemy);
 
-    index = (index + 1) % counts;
+    let processed = enemies.length > 0;
+
+    while (processed) {
+      enemies
+        .filter((instance) => instance.id === index)
+        .forEach((instance) => {
+          instance.position.x += movement.x;
+          instance.position.y += movement.y;
+          instance.frame += 1;
+
+          processed = false;
+        });
+
+      index = (index + 1) % counts;
+    }
 
     if (index === 0) {
       if (pedometer === 0) movement.y = 0;
@@ -28,7 +35,7 @@ export function SequentialMovement({ counts, step }: Props) {
       pedometer += 1;
     }
 
-    if (pedometer !== 10) return;
+    if (pedometer <= 10) return;
 
     movement.x *= -1;
     movement.y = step;

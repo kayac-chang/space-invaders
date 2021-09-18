@@ -85,7 +85,7 @@ export type IEnemy = GameObject &
   Transform &
   Renderer &
   Collision &
-  Shooter & { id: number; current: number };
+  Shooter & { id: number; frame: number };
 
 export function isEnemy(instance: any): instance is IEnemy {
   return Boolean(instance.tags?.includes("enemy"));
@@ -106,12 +106,12 @@ export default function Enemy({ type, id, position }: EnemyProps): IEnemy {
     tags: ["enemy"],
     position,
 
-    set current(value) {
+    set frame(value) {
       current = value % images.length;
 
       this.renderer.src = images[current];
     },
-    get current() {
+    get frame() {
       return current;
     },
 
