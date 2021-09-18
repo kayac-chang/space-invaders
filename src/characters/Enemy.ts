@@ -81,39 +81,38 @@ const EnemyImages: { [key in EnemyTypes]: number[][][] } = {
   ],
 };
 
-type Enemy = GameObject & Transform & Renderer & Collision & Shooter;
+export type IEnemy = GameObject &
+  Transform &
+  Renderer &
+  Collision &
+  Shooter & { id: number; current: number };
 
-export function isEnemy<T extends GameObject>(
-  instance: T
-): instance is T & Enemy {
+export function isEnemy(instance: any): instance is IEnemy {
   return Boolean(instance.tags?.includes("enemy"));
 }
 
 export type EnemyProps = {
   type: EnemyTypes;
   position: Vector;
+  id: number;
 };
-export default function Enemy({ type, position }: EnemyProps): Enemy {
+export default function Enemy({ type, id, position }: EnemyProps): IEnemy {
   const images = EnemyImages[type];
 
   let current = 0;
-  let timePass = 0;
 
   return {
+    id,
     tags: ["enemy"],
-
     position,
 
-    update(delta) {
-      timePass += delta;
+    set current(value) {
+      current = value % images.length;
 
-      if (timePass > 1000) {
-        current += 1;
-        timePass = 0;
-
-        this.renderer.src = images[current % images.length];
-        // this.canShoot = true;
-      }
+      this.renderer.src = images[current];
+    },
+    get current() {
+      return current;
     },
 
     canShoot: false,
@@ -131,7 +130,7 @@ export default function Enemy({ type, position }: EnemyProps): Enemy {
 
     renderer: {
       type: "graphics",
-      src: images[current % images.length],
+      src: images[current],
     },
 
     collider: {

@@ -1,6 +1,6 @@
 import { Container, Rectangle } from "pixi.js";
 import LaserCannon from "../characters/LaserCannon";
-import Enemy, { EnemyTypes, EnemyProps } from "../characters/Enemy";
+import Enemy, { EnemyTypes, EnemyProps, isEnemy } from "../characters/Enemy";
 import { getKeyPressed } from "../systems/input";
 import { clear, render } from "../systems/render";
 import { collisionDetect } from "../systems/collision";
@@ -14,7 +14,10 @@ import {
   Scene,
 } from "../types";
 
-const grid = 16;
+import { SequentialMovement } from "../logic/SequentialMovement";
+
+const GRID_SIZE = 16;
+const ROW_WIDTH = 11;
 
 const points: EnemyProps[][] = [
   "squid",
@@ -22,10 +25,11 @@ const points: EnemyProps[][] = [
   "crab",
   "octopus",
   "octopus",
-].map((type, y) =>
-  Array.from({ length: 11 }, (_, x) => ({
+].map((type, y, list) =>
+  Array.from({ length: ROW_WIDTH }, (_, x) => ({
+    id: (list.length - 1 - y) * ROW_WIDTH + x,
     type: type as EnemyTypes,
-    position: { x: x * grid, y: y * grid },
+    position: { x: x * GRID_SIZE, y: y * GRID_SIZE },
   }))
 );
 
@@ -36,9 +40,16 @@ function spawn(generate: typeof Enemy, points: EnemyProps[][]) {
 export default function Game(screen: Rectangle): Scene<Container> {
   let instances: GameObject[] = [LaserCannon(screen), ...spawn(Enemy, points)];
 
+  const update = SequentialMovement({
+    counts: instances.filter(isEnemy).length,
+    step: 2,
+  });
+
   return {
     update(delta) {
       collisionDetect(instances.filter(canCollision).filter(canTransform));
+
+      update(instances);
 
       instances.forEach((instance) => {
         if (canControl(instance)) {
