@@ -15,6 +15,7 @@ import {
 } from "../types";
 
 import { SequentialMovement } from "../logic/SequentialMovement";
+import { RandomlyShoot } from "../logic/RandomlyShoot";
 
 const GRID_SIZE = 16;
 const ROW_WIDTH = 11;
@@ -37,19 +38,28 @@ function spawn(generate: typeof Enemy, points: EnemyProps[][]) {
   return points.map((row) => row.map(generate)).flat();
 }
 
+const ap = (...fns: Function[]) => (...args: any[]) =>
+  fns.reduce((res, fn) => res.concat(fn(...args)), [] as any[]);
+
 export default function Game(screen: Rectangle): Scene<Container> {
   let instances: GameObject[] = [LaserCannon(screen), ...spawn(Enemy, points)];
 
-  const update = SequentialMovement({
-    counts: instances.filter(isEnemy).length,
-    step: 2,
-  });
+  const update = ap(
+    SequentialMovement({
+      counts: instances.filter(isEnemy).length,
+      step: 2,
+    }),
+    RandomlyShoot({
+      row: ROW_WIDTH,
+      rate: 1000,
+    })
+  );
 
   return {
     update(delta) {
       collisionDetect(instances.filter(canCollision).filter(canTransform));
 
-      update(instances);
+      update(delta, instances);
 
       instances.forEach((instance) => {
         if (canControl(instance)) {

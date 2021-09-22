@@ -10,7 +10,7 @@ export function SequentialMovement({ counts, step }: Props) {
   let pedometer = 0;
   let index = 0;
 
-  return (instances: GameObject[]) => {
+  return (_: number, instances: GameObject[]) => {
     const enemies = instances.filter(isEnemy);
 
     let processed = enemies.length > 0;
