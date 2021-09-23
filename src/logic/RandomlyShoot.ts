@@ -31,8 +31,8 @@ export function RandomlyShoot({ row, rate }: Props) {
     const instance = instances
       .filter(isEnemy)
       .filter(({ id }) => (id % row) - x === 0)
-      .reduce((a, b) => (a.position.y > b.position.y ? a : b));
+      .sort((a, b) => b.position.y - a.position.y)[0];
 
-    instance.canShoot = true;
+    if (instance) instance.canShoot = true;
   });
 }
