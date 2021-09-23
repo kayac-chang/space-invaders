@@ -1,4 +1,9 @@
-import { Container, Graphics as _Graphics } from "pixi.js";
+import {
+  Container,
+  DisplayObject,
+  Graphics as _Graphics,
+  Text as _Text,
+} from "pixi.js";
 import { canTransform, GameObject, Renderer, Transform } from "../types";
 
 function Graphics(
@@ -18,6 +23,8 @@ function Graphics(
       graphics.endFill();
     }
   }
+
+  return graphics;
 }
 
 const graphics = new _Graphics();
@@ -26,10 +33,28 @@ export function clear() {
   graphics.clear();
 }
 
+function Text(instance: Renderer) {
+  if (instance.renderer.type !== "text") return;
+
+  const src = instance.renderer.src;
+
+  return new _Text(src, {
+    fontFamily: "VT323",
+    fontSize: 12,
+    fill: 0xffffff,
+  });
+}
+
 export function render(stage: Container, instance: GameObject & Renderer) {
-  stage.addChild(graphics);
+  let child: DisplayObject | undefined;
 
   if (instance.renderer.type === "graphics" && canTransform(instance)) {
-    Graphics(graphics, instance);
+    child = Graphics(graphics, instance);
   }
+
+  if (instance.renderer.type === "text") {
+    child = Text(instance);
+  }
+
+  child && stage.addChild(child);
 }

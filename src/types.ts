@@ -21,12 +21,21 @@ export interface Control {
   handleInput(pressed: Key[]): void;
 }
 
-export interface Renderer {
+interface GraphicsRenderer {
   renderer: {
     type: "graphics";
     src: number[][];
   };
 }
+
+interface TextRenderer {
+  renderer: {
+    type: "text";
+    src: string;
+  };
+}
+
+export type Renderer = GraphicsRenderer | TextRenderer;
 
 export interface Collision {
   collider: {

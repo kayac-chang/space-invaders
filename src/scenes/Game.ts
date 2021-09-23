@@ -16,6 +16,7 @@ import {
 
 import { SequentialMovement } from "../logic/SequentialMovement";
 import { RandomlyShoot } from "../logic/RandomlyShoot";
+import GameHUD from "../HUD/game";
 
 const GRID_SIZE = 16;
 const ROW_WIDTH = 11;
@@ -42,7 +43,11 @@ const ap = (...fns: Function[]) => (...args: any[]) =>
   fns.reduce((res, fn) => res.concat(fn(...args)), [] as any[]);
 
 export default function Game(screen: Rectangle): Scene<Container> {
-  let instances: GameObject[] = [LaserCannon(screen), ...spawn(Enemy, points)];
+  let instances: GameObject[] = [
+    LaserCannon(screen),
+    ...spawn(Enemy, points),
+    GameHUD(),
+  ];
 
   const update = ap(
     SequentialMovement({
