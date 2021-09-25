@@ -16,10 +16,15 @@ import {
 
 import { SequentialMovement } from "../logic/SequentialMovement";
 import { RandomlyShoot } from "../logic/RandomlyShoot";
-import GameHUD from "../HUD/game";
+import GameHUD from "../HUD/Game";
 
 const GRID_SIZE = 16;
 const ROW_WIDTH = 11;
+
+const INIT_POSITION = {
+  x: 16,
+  y: 50,
+};
 
 const points: EnemyProps[][] = [
   "squid",
@@ -31,7 +36,10 @@ const points: EnemyProps[][] = [
   Array.from({ length: ROW_WIDTH }, (_, x) => ({
     id: (list.length - 1 - y) * ROW_WIDTH + x,
     type: type as EnemyTypes,
-    position: { x: x * GRID_SIZE, y: y * GRID_SIZE },
+    position: {
+      x: INIT_POSITION.x + x * GRID_SIZE,
+      y: INIT_POSITION.y + y * GRID_SIZE,
+    },
   }))
 );
 
@@ -46,7 +54,7 @@ export default function Game(screen: Rectangle): Scene<Container> {
   let instances: GameObject[] = [
     LaserCannon(screen),
     ...spawn(Enemy, points),
-    GameHUD(),
+    ...GameHUD(),
   ];
 
   const update = ap(

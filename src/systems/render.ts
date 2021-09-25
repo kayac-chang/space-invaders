@@ -28,21 +28,33 @@ function Graphics(
 }
 
 const graphics = new _Graphics();
+let pools: DisplayObject[] = [];
 
 export function clear() {
+  pools.forEach((obj) => obj.destroy());
+  pools = [];
+
   graphics.clear();
 }
 
-function Text(instance: Renderer) {
+function Text(instance: Renderer & Transform) {
   if (instance.renderer.type !== "text") return;
 
   const src = instance.renderer.src;
 
-  return new _Text(src, {
+  const text = new _Text(src, {
     fontFamily: "VT323",
-    fontSize: 12,
+    fontSize: 16,
     fill: 0xffffff,
   });
+
+  const { x, y } = instance.position;
+
+  text.position.set(x, y);
+
+  pools.push(text);
+
+  return text;
 }
 
 export function render(stage: Container, instance: GameObject & Renderer) {
@@ -52,7 +64,7 @@ export function render(stage: Container, instance: GameObject & Renderer) {
     child = Graphics(graphics, instance);
   }
 
-  if (instance.renderer.type === "text") {
+  if (instance.renderer.type === "text" && canTransform(instance)) {
     child = Text(instance);
   }
 
