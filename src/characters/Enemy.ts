@@ -95,16 +95,28 @@ export type EnemyProps = {
   type: EnemyTypes;
   position: Vector;
   id: number;
+  grid: number;
 };
-export default function Enemy({ type, id, position }: EnemyProps): IEnemy {
+export default function Enemy({
+  type,
+  id,
+  position,
+  grid,
+}: EnemyProps): IEnemy {
   const images = EnemyImages[type];
 
   let current = 0;
 
+  const height = images[current].length;
+  const width = images[current][0].length;
+
   return {
     id,
     tags: ["enemy"],
-    position,
+    position: {
+      ...position,
+      x: position.x + grid / 2 - width / 2,
+    },
 
     set frame(value) {
       current = value % images.length;
@@ -118,7 +130,7 @@ export default function Enemy({ type, id, position }: EnemyProps): IEnemy {
     canShoot: false,
     shoot() {
       const { x, y } = this.position;
-      const [w, h] = [images[0].length, images.length];
+      const [w, h] = [width, height];
 
       return EnemyLaser({
         position: { x: x + w / 2, y: y + h + 1 },
@@ -134,7 +146,7 @@ export default function Enemy({ type, id, position }: EnemyProps): IEnemy {
     },
 
     collider: {
-      size: { x: images[0].length, y: images.length },
+      size: { x: width, y: height },
     },
   };
 }

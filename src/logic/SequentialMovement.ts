@@ -1,13 +1,15 @@
 import { isEnemy } from "../characters/Enemy";
-import { GameObject } from "../types";
+import { GameObject, Vector } from "../types";
 
 type Props = {
   counts: number;
-  step: number;
+  step: Vector;
 };
 export function SequentialMovement({ counts, step }: Props) {
-  const movement = { x: step, y: 0 };
-  let pedometer = 0;
+  const movement = { x: step.x, y: 0 };
+  let offset = 0;
+
+  let direction = 1;
   let index = 0;
 
   return (_: number, instances: GameObject[]) => {
@@ -30,16 +32,17 @@ export function SequentialMovement({ counts, step }: Props) {
     }
 
     if (index === 0) {
-      if (pedometer === 0) movement.y = 0;
+      if (offset === 0) movement.y = 0;
 
-      pedometer += 1;
+      offset += direction;
     }
 
-    if (pedometer <= 10) return;
+    if (Math.abs(offset) < 10) return;
 
-    movement.x *= -1;
-    movement.y = step;
+    movement.x *= -direction;
+    if (offset === 10) movement.y = step.y;
 
-    pedometer = 0;
+    offset = 0;
+    direction *= -1;
   };
 }

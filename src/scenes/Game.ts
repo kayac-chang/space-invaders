@@ -21,28 +21,6 @@ import GameHUD from "../HUD/Game";
 const GRID_SIZE = 16;
 const ROW_WIDTH = 11;
 
-const INIT_POSITION = {
-  x: 16,
-  y: 50,
-};
-
-const points: EnemyProps[][] = [
-  "squid",
-  "crab",
-  "crab",
-  "octopus",
-  "octopus",
-].map((type, y, list) =>
-  Array.from({ length: ROW_WIDTH }, (_, x) => ({
-    id: (list.length - 1 - y) * ROW_WIDTH + x,
-    type: type as EnemyTypes,
-    position: {
-      x: INIT_POSITION.x + x * GRID_SIZE,
-      y: INIT_POSITION.y + y * GRID_SIZE,
-    },
-  }))
-);
-
 function spawn(generate: typeof Enemy, points: EnemyProps[][]) {
   return points.map((row) => row.map(generate)).flat();
 }
@@ -51,6 +29,29 @@ const ap = (...fns: Function[]) => (...args: any[]) =>
   fns.reduce((res, fn) => res.concat(fn(...args)), [] as any[]);
 
 export default function Game(screen: Rectangle): Scene<Container> {
+  const INIT_POSITION = {
+    x: screen.width / 2 - (GRID_SIZE * ROW_WIDTH) / 2,
+    y: 50,
+  };
+
+  const points: EnemyProps[][] = [
+    "squid",
+    "crab",
+    "crab",
+    "octopus",
+    "octopus",
+  ].map((type, y, list) =>
+    Array.from({ length: ROW_WIDTH }, (_, x) => ({
+      id: (list.length - 1 - y) * ROW_WIDTH + x,
+      type: type as EnemyTypes,
+      position: {
+        x: INIT_POSITION.x + x * GRID_SIZE,
+        y: INIT_POSITION.y + y * GRID_SIZE,
+      },
+      grid: GRID_SIZE,
+    }))
+  );
+
   let instances: GameObject[] = [
     LaserCannon(screen),
     ...spawn(Enemy, points),
@@ -60,7 +61,7 @@ export default function Game(screen: Rectangle): Scene<Container> {
   const update = ap(
     SequentialMovement({
       counts: instances.filter(isEnemy).length,
-      step: 2,
+      step: { x: 2, y: GRID_SIZE / 2 },
     }),
     RandomlyShoot({
       row: ROW_WIDTH,
